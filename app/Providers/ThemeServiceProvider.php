@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Roots\Acorn\Sage\SageServiceProvider;
 use Livewire\LivewireServiceProvider;
-use App\Http\Kernel;
-use App\Http\Middleware\LogRequestMiddleware;
+// use App\Http\Kernel;;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Pagination\Paginator;
 
 class ThemeServiceProvider extends SageServiceProvider
@@ -35,6 +35,18 @@ class ThemeServiceProvider extends SageServiceProvider
     public function boot()
     {
         parent::boot();
+
+        // Load routes
+        $this->loadRoutesFrom(base_path('routes/web.php'));
+
+        // nạp api routes với group 'api' + prefix 'api'
+        Route::middleware('api')
+            ->prefix('api')
+            ->group(function () {
+                // load file api.php
+                $this->loadRoutesFrom(base_path('routes/api.php'));
+            });
+
         $this->loadMigrationsFrom(base_path('database/migrations'));
         Paginator::useTailwind(); // hoặc useBootstrap() nếu dùng Bootstrap CSS
 
@@ -47,7 +59,9 @@ class ThemeServiceProvider extends SageServiceProvider
         $router = $this->app['router'];
 
         // // 1) Khai báo alias middleware (để dùng 'log')
-        $router->aliasMiddleware('log', LogRequestMiddleware::class);
+        $router->aliasMiddleware('log', \App\Http\Middleware\LogRequestMiddleware::class);
+        // auth.jwt
+        $router->aliasMiddleware('auth.jwt', \App\Http\Middleware\VerifyJwt::class);
 
         // // 2) Định nghĩa middleware cho toàn bộ group 'web'
         // $router->middlewareGroup('web', [

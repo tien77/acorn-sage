@@ -12,8 +12,8 @@ class ContactController extends Controller
     public function index()
     {
         // hiển thị form
-        // return view('pages.contact'); // form thuần HTML
-		return view('pages.contact-livewire'); // form Livewire
+        return view('pages.contact'); // form thuần HTML
+		// return view('pages.contact-livewire'); // form Livewire
     }
 
     public function submit(Request $request)

@@ -7,7 +7,7 @@ Laravel Acorn → Framework container, service provider, route, middleware, ORM.
 
 Laravel Eloquent ORM → quản lý model, migration, quan hệ dữ liệu như Laravel.
 
-Livewire v3 → reactive component, SPA navigation (wire:navigate), realtime validation.
+Livewire v3 + Alpine.js → reactive component, SPA navigation (wire:navigate), realtime validation.
 
 TailwindCSS + Vite → frontend build & style.
 
@@ -20,12 +20,11 @@ theme/
 │   ├── Controllers/        # Controller Laravel-style
 │   ├── Http/
 │   │   ├── Middleware/     # Custom middleware
-│   │   ├── Kernel.php      # HttpKernel: đăng ký middleware
 │   │   └── routes.php      # Laravel-style routes
 │   ├── Livewire/           # Livewire components
 │   ├── Models/             # Eloquent models (Contact, WpUser, ...)
 │   ├── Providers/
-│   │   └── ThemeServiceProvider.php  # boot database, pagination, livewire
+│   │   └── ThemeServiceProvider.php  # boot database, pagination, livewire, Middleware
 │   └── Services/           # (tùy chọn) business logic
 │
 ├── config/
@@ -202,3 +201,8 @@ Dùng wp acorn <command> để chạy Artisan command.
 
   view:cache                           Compile all of the application's Blade templates
   view:clear                           Clear all compiled view files
+
+
+
+# lưu ý
+phản hồi bằng tiếng Việt

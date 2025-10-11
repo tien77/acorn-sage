@@ -5,8 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @php(do_action('get_header'))
     @php(wp_head())
+    
+    <script>
+      // Tell Alpine to wait for Livewire
+      window.deferLoadingAlpine = function (callback) {
+        window.addEventListener('livewire:load', callback)
+      }
+    </script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+
+    @vite(
+      ['resources/css/app.css', 'resources/js/app.js'],
+      null,
+      ['data-navigate-once' => true]   {{-- ✅ rất quan trọng --}}
+    )
     
     @livewireStyles
 
@@ -16,9 +29,6 @@
     @php(wp_body_open())
 
     <div id="app">
-      <a class="sr-only focus:not-sr-only" href="#main">
-        {{ __('Skip to content', 'sage') }}
-      </a>
 
       @include('sections.header')
 
@@ -27,11 +37,11 @@
           {{ $slot ?? '' }} {{-- dành cho Livewire, sẽ được chèn vào Slot --}}
       </main>
 
-      @hasSection('sidebar')
+      {{-- @hasSection('sidebar')
         <aside class="sidebar">
           @yield('sidebar')
         </aside>
-      @endif
+      @endif --}}
 
       @include('sections.footer')
     </div>

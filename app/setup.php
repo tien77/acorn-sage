@@ -156,3 +156,15 @@ add_action('widgets_init', function () {
         'id' => 'sidebar-footer',
     ] + $config);
 });
+
+
+/**
+ * Set the page <title> for the welcome route
+ */
+add_filter('pre_get_document_title', function ($title) {
+    $name = \Illuminate\Support\Facades\Route::currentRouteName();
+    if ($name === 'home') {
+        return 'Welcome Page Home - My WordPress Laravel Theme';
+    }
+    return $name;
+});

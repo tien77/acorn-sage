@@ -60,6 +60,7 @@ class ThemeServiceProvider extends SageServiceProvider
 
         // // 1) Khai báo alias middleware (để dùng 'log')
         $router->aliasMiddleware('log', \App\Http\Middleware\LogRequestMiddleware::class);
+        $router->aliasMiddleware('auth.wp', \App\Http\Middleware\AuthenticateWordPress::class); // middleware đăng nhập WordPress
         // auth.jwt
         $router->aliasMiddleware('auth.jwt', \App\Http\Middleware\VerifyJwt::class);
 

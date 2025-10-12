@@ -10,6 +10,13 @@ import 'nprogress/nprogress.css'
 // Import CSS chính
 import '../css/app.css'
 
+NProgress.configure({
+  showSpinner: false,   // tắt spinner cho gọn
+  trickleSpeed: 120,    // nhỏ giọt chậm hơn
+  minimum: 0.08         // bắt đầu thấp để mượt
+});
+
+
 // Import assets
 import.meta.glob([
   '../images/**',
@@ -36,6 +43,18 @@ document.addEventListener('alpine:init', () => {
 // khởi động initNavigation lần đầu
 document.addEventListener('DOMContentLoaded', initNavigation);
 
+let lwSpa = { timer: null, started: false };
+// Bắt đầu khi SPA điều hướng (không phải lần load đầu)
+document.addEventListener('livewire:navigating', () => {
+  // anti-flicker: chỉ start nếu >120ms
+  lwSpa.started = false;
+  lwSpa.timer = setTimeout(() => {
+    NProgress.start();
+    lwSpa.started = true;
+  }, 120);
+});
+
+
 // Re-init Alpine sau mỗi lần SPA navigate
 document.addEventListener('livewire:navigated', () => {
   console.log('livewire:navigated - reinit Alpine & navigation');
@@ -43,10 +62,19 @@ document.addEventListener('livewire:navigated', () => {
   window.Alpine.initTree(document.body)
   initNavigation();
 
-  NProgress.start();
+  if (lwSpa.timer) clearTimeout(lwSpa.timer);
+  // nếu đã start thì đợi 90ms cho DOM ổn định rồi mới done
+  if (lwSpa.started) {
+    setTimeout(() => NProgress.done(), 90);
+  }
+  lwSpa.started = false;
+
 });
 
 
-document.addEventListener('livewire:navigated', () => {
-  NProgress.done()
+// Nếu có lỗi trong khi SPA nav
+document.addEventListener('livewire:navigate-error', () => {
+  if (lwSpa.timer) clearTimeout(lwSpa.timer);
+  if (lwSpa.started) NProgress.done();
+  lwSpa.started = false;
 });

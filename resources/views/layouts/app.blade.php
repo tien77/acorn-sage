@@ -51,5 +51,8 @@
 
     @livewireScripts
 
+    {{-- Stack for custom scripts from child views --}}
+    @stack('scripts')
+
   </body>
 </html>

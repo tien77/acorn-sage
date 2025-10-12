@@ -18,6 +18,11 @@
              wire:navigate>
             Home
           </a>
+          <a href="{{ route('gallery.index') }}" 
+             class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('gallery*') ? 'text-blue-600 bg-blue-50' : '' }}"
+             wire:navigate>
+            Gallery
+          </a>
           <a href="/prices" 
              class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 bg-blue-50' : '' }}"
              wire:navigate>
@@ -28,13 +33,13 @@
              wire:navigate>
             Contact
           </a>
-          <a href="/contact-livewire" 
-             class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 bg-blue-50' : '' }}"
-             wire:navigate>
-            Contact livewire
-          </a>
         </div>
       </nav>
+
+      {{-- Auth Status --}}
+      <div class="hidden md:block">
+        <livewire:auth-status />
+      </div>
 
       {{-- Mobile menu button --}}
       <div class="md:hidden">
@@ -63,6 +68,11 @@
            wire:navigate>
           Home
         </a>
+        <a href="{{ route('gallery.index') }}" 
+           class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('gallery*') ? 'text-blue-600 bg-blue-50' : '' }}"
+           wire:navigate>
+          Gallery
+        </a>
         <a href="/prices" 
            class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 bg-blue-50' : '' }}"
            wire:navigate>
@@ -73,11 +83,11 @@
            wire:navigate>
           Contact
         </a>
-        <a href="/contact-livewire" 
-           class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 bg-blue-50' : '' }}"
-           wire:navigate>
-          Contact livewire
-        </a>
+        
+        {{-- Mobile Auth --}}
+        <div class="border-t border-gray-300 pt-3 mt-3">
+          <livewire:auth-status />
+        </div>
       </div>
     </div>
   </div>

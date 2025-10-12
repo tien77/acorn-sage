@@ -61,3 +61,15 @@ collect(['setup', 'filters'])
             );
         }
     });
+
+
+/**
+ * remove wp-block-library CSS (Gutenberg)
+ */
+add_action('wp_enqueue_scripts', 'atdev_styles_for_theme');
+function atdev_styles_for_theme()
+{
+    wp_dequeue_style('wp-block-library'); // remove block-library/style.min.css
+    wp_dequeue_style( 'global-styles' );  // block, color...
+    wp_dequeue_style('classic-theme-styles'); // remove classic-theme-styles.css
+}

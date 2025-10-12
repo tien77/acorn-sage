@@ -55,8 +55,8 @@ theme/
 đăng ký route, middleware,
 load migration,
 kích hoạt pagination.
-4️⃣ HttpKernel quản lý middleware & route group (web, api).
-5️⃣ Khi truy cập URL do Laravel route handle (/hello, /contact, /my-contacts) → Laravel xử lý full stack.
+4️⃣ middleware quản lý trong App\Providers\ThemeServiceProvider
+5️⃣ Khi truy cập URL do Laravel route handle Laravel xử lý full stack.
 6️⃣ Livewire render view reactive trong Blade.
 
 # Middleware
@@ -203,6 +203,94 @@ Dùng wp acorn <command> để chạy Artisan command.
   view:clear                           Clear all compiled view files
 
 
+# JavaScript & SPA Navigation (wire:navigate)
+
+## ⚠️ Vấn đề JavaScript với SPA Navigation
+
+Khi sử dụng `wire:navigate` cho SPA experience, JavaScript chỉ chạy lần đầu trang load.
+Khi navigate qua lại các trang, event listeners có thể bị mất.
+
+### ❌ Sai - JavaScript chỉ chạy một lần:
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', handleClick); // Chỉ chạy lần đầu
+    });
+});
+```
+
+### ✅ Đúng - JavaScript hoạt động với SPA:
+```javascript
+// Tách thành function để gọi lại
+function initializeComponents() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    
+    // Remove old listeners (tránh duplicate)
+    buttons.forEach(btn => {
+        btn.removeEventListener('click', handleClick);
+    });
+    
+    // Add new listeners
+    buttons.forEach(btn => {
+        btn.addEventListener('click', handleClick);
+    });
+}
+
+// Init lần đầu
+document.addEventListener('DOMContentLoaded', initializeComponents);
+
+// Reinit sau SPA navigation
+document.addEventListener('livewire:navigated', function() {
+    setTimeout(initializeComponents, 100); // Delay nhỏ để DOM ready
+});
+```
+
+## Global Functions cho Modal/Components
+
+Functions cần persist qua SPA navigation nên đặt global:
+
+```javascript
+// ✅ Global functions không bị mất khi navigate
+window.openModal = function(data) { /* ... */ };
+window.closeModal = function() { /* ... */ };
+
+// ❌ Local functions bị mất khi SPA navigate
+function openModal(data) { /* ... */ } // Sẽ bị undefined
+```
+
+## Event Listeners Toàn Cục
+
+Keyboard events, click outside, v.v. chỉ nên add một lần:
+
+```javascript
+// ✅ Chỉ add listener một lần
+if (!window.keyboardListenerAdded) {
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') window.closeModal();
+    });
+    window.keyboardListenerAdded = true;
+}
+```
+
+## Layout Requirements
+
+Layout phải có `@stack('scripts')` để nhận JS từ views:
+
+```blade
+<!-- resources/views/layouts/app.blade.php -->
+@php(wp_footer())
+@livewireScripts
+@stack('scripts')  <!-- ✅ Quan trọng -->
+</body>
+```
+
+## Livewire Events
+
+Các Livewire navigation events hữu ích:
+- `livewire:navigating` - Trước khi navigate
+- `livewire:navigated` - Sau khi navigate xong
+- `livewire:load` - Component đã load
 
 # lưu ý
 phản hồi bằng tiếng Việt

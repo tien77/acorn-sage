@@ -1,10 +1,10 @@
-<header class="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+<header class="bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       
       {{-- Logo/Brand --}}
       <div class="flex-shrink-0">
-        <a class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors duration-200" 
+        <a class="text-2xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" 
            href="{{ home_url('/') }}">
           {!! $siteName !!}
         </a>
@@ -14,37 +14,41 @@
       <nav class="hidden md:block" aria-label="Main Navigation">
         <div class="flex space-x-8">
           <a href="{{ home_url('/') }}"
-             class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('/') ? 'text-blue-600 bg-blue-50' : '' }}"
+             class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('/') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
              wire:navigate>
             Home
           </a>
           <a href="{{ route('gallery.index') }}" 
-             class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('gallery*') ? 'text-blue-600 bg-blue-50' : '' }}"
+             class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('gallery*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
              wire:navigate>
             Gallery
           </a>
           <a href="/prices" 
-             class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 bg-blue-50' : '' }}"
+             class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
              wire:navigate>
             Prices
           </a>
           <a href="/contact" 
-             class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 bg-blue-50' : '' }}"
+             class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
              wire:navigate>
             Contact
           </a>
         </div>
       </nav>
 
-      {{-- Auth Status --}}
-      <div class="hidden md:block">
+      {{-- Right Side: Dark Mode + Auth --}}
+      <div class="hidden md:flex items-center space-x-4">
+        {{-- Dark Mode Toggle --}}
+        <livewire:dark-mode-toggle />
+        
+        {{-- Auth Status --}}
         <livewire:auth-status />
       </div>
 
       {{-- Mobile menu button --}}
       <div class="md:hidden">
         <button type="button" 
-                class="mobile-menu-button bg-white p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                class="mobile-menu-button bg-white dark:bg-gray-800 p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
                 aria-controls="mobile-menu" 
                 aria-expanded="false">
           <span class="sr-only">Mở menu</span>
@@ -62,30 +66,37 @@
 
     {{-- Mobile Navigation --}}
     <div class="mobile-menu hidden md:hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 border-t border-gray-200">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-200">
         <a href="{{ home_url('/') }}"
-           class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('/') ? 'text-blue-600 bg-blue-50' : '' }}"
+           class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('/') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
            wire:navigate>
           Home
         </a>
         <a href="{{ route('gallery.index') }}" 
-           class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('gallery*') ? 'text-blue-600 bg-blue-50' : '' }}"
+           class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('gallery*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
            wire:navigate>
           Gallery
         </a>
         <a href="/prices" 
-           class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 bg-blue-50' : '' }}"
+           class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
            wire:navigate>
           Prices
         </a>
         <a href="/contact" 
-           class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 bg-blue-50' : '' }}"
+           class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
            wire:navigate>
           Contact
         </a>
         
-        {{-- Mobile Auth --}}
-        <div class="border-t border-gray-300 pt-3 mt-3">
+        {{-- Mobile Controls --}}
+        <div class="border-t border-gray-300 pt-3 mt-3 space-y-3">
+          {{-- Dark Mode Toggle Mobile --}}
+          <div class="flex items-center justify-between px-3">
+            <span class="text-sm text-gray-600 dark:text-gray-300">Dark Mode</span>
+            <livewire:dark-mode-toggle />
+          </div>
+          
+          {{-- Mobile Auth --}}
           <livewire:auth-status />
         </div>
       </div>

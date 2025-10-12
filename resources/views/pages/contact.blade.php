@@ -13,11 +13,14 @@
 
     {{-- Form --}}
     <form action="{{ route('contact.submit') }}" method="POST" class="space-y-5">
-      {{-- @csrf --}}
+      <div class="dark:text-white">
+        {{-- Thông tin form --}}
+        <p class="text-gray-600 dark:text-gray-300 mb-5">Vui lòng điền đầy đủ thông tin bên dưới để gửi liên hệ đến chúng tôi.</p>
+      </div>
 
       {{-- Họ tên --}}
       <div>
-        <label for="name" class="block font-medium text-gray-700">Họ tên</label>
+        <label for="name" class="block font-medium text-gray-700 dark:text-gray-300">Họ tên</label>
         <input type="text" name="name" id="name" value="{{ old('name') }}"
                class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 @error('name') border-red-500 @enderror">
         @error('name')
@@ -27,7 +30,7 @@
 
       {{-- Email --}}
       <div>
-        <label for="email" class="block font-medium text-gray-700">Email</label>
+        <label for="email" class="block font-medium text-gray-700 dark:text-gray-300">Email</label>
         <input type="email" name="email" id="email" value="{{ old('email') }}"
                class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 @error('email') border-red-500 @enderror">
         @error('email')
@@ -37,7 +40,7 @@
 
       {{-- Nội dung --}}
       <div>
-        <label for="message" class="block font-medium text-gray-700">Nội dung</label>
+        <label for="message" class="block font-medium text-gray-700 dark:text-gray-300">Nội dung</label>
         <textarea name="message" id="message" rows="5"
                   class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
         @error('message')

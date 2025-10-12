@@ -1,20 +1,25 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Thiết lập chế độ màu theo class 'dark' (Tailwind v4) */
+@layer base {
+  html { color-scheme: light; }
+  html.dark { color-scheme: dark; }
+}
+
 /* Nếu muốn đảm bảo có "font-sans", định nghĩa trong theme */
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-/* Base override bằng Tailwind utilities */
-@layer base {
-  
-}
-
 body { font-family: var(--font-sans); }
+
+/* (XÓA mọi rule thủ công dạng :root.dark .dark\:... nếu có) */
 
 /* Custom CSS nprogress */
 #nprogress .bar {
-  background: #2563eb; /* màu xanh Tailwind blue-600 */
+  background: #2563eb; /* Tailwind blue-600 */
   height: 2px;
 }
 #nprogress .peg {

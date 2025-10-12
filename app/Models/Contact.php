@@ -14,7 +14,7 @@ class Contact extends Model
 
     public function user()
     {
-        return $this->belongsTo(WpUser::class, 'user_id', 'ID');
+        return $this->belongsTo(User::class, 'user_id', 'ID');
     }
 
 }

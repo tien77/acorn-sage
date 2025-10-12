@@ -22,7 +22,7 @@ theme/
 │   │   ├── Middleware/     # Custom middleware
 │   │   └── routes.php      # Laravel-style routes
 │   ├── Livewire/           # Livewire components
-│   ├── Models/             # Eloquent models (Contact, WpUser, ...)
+│   ├── Models/             # Eloquent models (Contact, User, ...)
 │   ├── Providers/
 │   │   └── ThemeServiceProvider.php  # boot database, pagination, livewire, Middleware
 │   └── Services/           # (tùy chọn) business logic
@@ -88,10 +88,10 @@ Dùng wp acorn migrate để đồng bộ DB theo version.
 wp acorn make:migration create_contacts_table --create=contacts
 
 ## Model
-app/Models/WpUser.php là ví dụ model Eloquent cho bảng wp_users vẫn dùng session WordPress, không cần auth()
+app/Models/User.php là ví dụ model Eloquent cho bảng wp_users vẫn dùng session WordPress, không cần auth()
 
 ````php
-class WpUser extends Model
+class User extends Model
 {
     protected $primaryKey = 'ID';
     public $timestamps = false; // wp_users không có created_at/updated_at

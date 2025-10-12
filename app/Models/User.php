@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WpUser extends Model
+class User extends Model
 {
     // Bảng users của WP có prefix (vd. wp_users), nên set động theo prefix kết nối:
     protected $primaryKey = 'ID';

@@ -30,12 +30,12 @@ class AuthController
 	   }
 
         // Xác thực bằng WP
-        $wpUser = wp_authenticate($request->input('username'), $request->input('password'));
-        if (is_wp_error($wpUser)) {
+        $user = wp_authenticate($request->input('username'), $request->input('password'));
+        if (is_wp_error($user)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $userId = (int) $wpUser->ID;
+        $userId = (int) $user->ID;
 
         // 1) access token (JWT)
         $access = Jwt::makeAccessToken($userId);

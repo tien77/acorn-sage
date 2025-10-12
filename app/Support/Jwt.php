@@ -4,12 +4,21 @@ namespace App\Support;
 
 use Firebase\JWT\JWT as FirebaseJWT;
 use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Log;
 
 class Jwt
 {
     public static function secret(): string
     {
         $secret = env('JWT_SECRET');
+
+        if (empty($secret)) {
+            // Ghi log cảnh báo để bạn dễ debug
+            Log::warning('JWT_SECRET missing in .env, using fallback key');
+            // fallback tạm thời (chỉ nên dùng local)
+            return 'temporary-jwt-key';
+        }
+
         return str_starts_with($secret, 'base64:')
             ? base64_decode(substr($secret, 7))
             : $secret;

@@ -6,7 +6,10 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\BlogController;
-    use App\Livewire\ContactForm;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Livewire\ContactForm;
 
 
 Route::get('/boom', function () {
@@ -65,3 +68,38 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 // Blog API routes (để support AJAX/Livewire)
 Route::get('/api/blog', [BlogController::class, 'apiIndex'])->name('api.blog.index');
 Route::get('/api/blog/categories', [BlogController::class, 'getCategories'])->name('api.blog.categories');
+
+// Product routes
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/category/{slug}', [ProductController::class, 'category'])->name('products.category');
+
+// Product API routes
+Route::get('/api/products', [ProductController::class, 'apiIndex'])->name('api.products.index');
+
+// Cart routes
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+Route::post('/cart/quick-add', [CartController::class, 'quickAdd'])->name('cart.quick-add');
+
+// Cart API routes
+Route::get('/api/cart/info', [CartController::class, 'getCartInfo'])->name('api.cart.info');
+Route::post('/api/cart/merge', [CartController::class, 'mergeCart'])->name('api.cart.merge');
+
+// Order routes
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/orders/{order}/payment-info', [OrderController::class, 'paymentInfo'])->name('orders.payment-info');
+
+// Protected order routes
+Route::middleware(['auth.wp'])->group(function () {
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.mine');
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+});
+
+// Order API routes
+Route::post('/api/orders/calculate-shipping', [OrderController::class, 'calculateShipping'])->name('api.orders.shipping');

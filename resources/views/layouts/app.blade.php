@@ -150,5 +150,54 @@
     {{-- Stack for custom scripts from child views --}}
     @stack('scripts')
 
+    {{-- Global Cart Script --}}
+    <script>
+    // Load cart count on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCartCount();
+    });
+
+    // Load cart count after SPA navigation
+    document.addEventListener('livewire:navigated', function() {
+        setTimeout(loadCartCount, 100);
+    });
+
+    // Global function to load cart count
+    window.loadCartCount = function() {
+        // Only load if not already loading
+        if (window.cartCountLoading) return;
+        window.cartCountLoading = true;
+
+        fetch('{{ route("api.cart.info") }}', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateCartCount(data.cart_count);
+            }
+        })
+        .catch(error => {
+            console.log('Cart count load failed:', error);
+        })
+        .finally(() => {
+            window.cartCountLoading = false;
+        });
+    };
+
+    // Global function to update cart count
+    window.updateCartCount = function(count) {
+        const cartCountElements = document.querySelectorAll('.cart-count');
+        cartCountElements.forEach(el => {
+            el.textContent = count;
+            el.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    };
+    </script>
+
   </body>
 </html>

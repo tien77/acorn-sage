@@ -28,6 +28,11 @@
              wire:navigate>
             Prices
           </a>
+          <a href="{{ route('products.index') }}" 
+             class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('products*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
+             wire:navigate>
+            Sản phẩm
+          </a>
           <a href="/contact" 
              class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
              wire:navigate>
@@ -36,8 +41,20 @@
         </div>
       </nav>
 
-      {{-- Right Side: Dark Mode + Auth --}}
+      {{-- Right Side: Cart + Dark Mode + Auth --}}
       <div class="hidden md:flex items-center space-x-4">
+        {{-- Shopping Cart --}}
+        <a href="{{ route('cart.index') }}" 
+           class="relative text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-md transition-colors duration-200"
+           wire:navigate>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6M17 13l1.5 6M12 17h6M9 17h.01"/>
+          </svg>
+          <span class="cart-count absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" 
+                style="display: none;">0</span>
+        </a>
+        
         {{-- Dark Mode Toggle --}}
         <livewire:dark-mode-toggle />
         
@@ -81,6 +98,18 @@
            class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('prices') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
            wire:navigate>
           Prices
+        </a>
+        <a href="{{ route('products.index') }}" 
+           class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('products*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
+           wire:navigate>
+          Sản phẩm
+        </a>
+        <a href="{{ route('cart.index') }}" 
+           class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('cart*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"
+           wire:navigate>
+          Giỏ hàng
+          <span class="cart-count inline-block ml-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 text-center leading-5" 
+                style="display: none;">0</span>
         </a>
         <a href="/contact" 
            class="block text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 {{ request()->is('contact') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : '' }}"

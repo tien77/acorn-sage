@@ -5,11 +5,12 @@ use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
-use App\Livewire\ContactForm;
+    use App\Livewire\ContactForm;
 
 
 Route::get('/boom', function () {
     // abort(500, 'Something went wrong!');
+    logger()->channel('deleted-posts')->info('Boom!');
     return throw new \RuntimeException('Test Ignition/Whoops');
 });
 
@@ -55,3 +56,7 @@ Route::get('/gallery/{id}', [GalleryController::class, 'show'])->name('gallery.s
 Route::get('/api/gallery/category', [GalleryController::class, 'getByCategory'])->name('gallery.category');
 
 Route::view('/prices', 'pages.prices')->name('prices');
+
+Route::get('/blog', function () {
+    return view('pages.blog');
+})->name('blog.index');

@@ -5,6 +5,7 @@ use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\BlogController;
     use App\Livewire\ContactForm;
 
 
@@ -57,6 +58,10 @@ Route::get('/api/gallery/category', [GalleryController::class, 'getByCategory'])
 
 Route::view('/prices', 'pages.prices')->name('prices');
 
-Route::get('/blog', function () {
-    return view('pages.blog');
-})->name('blog.index');
+// Blog routes
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
+// Blog API routes (để support AJAX/Livewire)
+Route::get('/api/blog', [BlogController::class, 'apiIndex'])->name('api.blog.index');
+Route::get('/api/blog/categories', [BlogController::class, 'getCategories'])->name('api.blog.categories');

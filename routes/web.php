@@ -9,6 +9,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
 use App\Livewire\ContactForm;
 
 
@@ -103,3 +104,31 @@ Route::middleware(['auth.wp'])->group(function () {
 
 // Order API routes
 Route::post('/api/orders/calculate-shipping', [OrderController::class, 'calculateShipping'])->name('api.orders.shipping');
+
+// Admin routes (requires admin privileges)
+Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Products management
+    Route::get('/products', [AdminController::class, 'products'])->name('products.index');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
+    Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
+    Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');
+    Route::put('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
+    Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
+    Route::post('/products/bulk-action', [AdminController::class, 'bulkProductAction'])->name('products.bulk-action');
+    
+    // Orders management
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
+    Route::get('/orders/{order}', [AdminController::class, 'showOrder'])->name('orders.show');
+    Route::put('/orders/{order}', [AdminController::class, 'updateOrder'])->name('orders.update');
+    Route::delete('/orders/{order}', [AdminController::class, 'deleteOrder'])->name('orders.delete');
+
+    // Categories management
+    Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
+    Route::get('/categories/{category}', [AdminController::class, 'getCategory'])->name('categories.show');
+    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
+    Route::put('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+});

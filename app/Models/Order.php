@@ -13,21 +13,24 @@ class Order extends Model
         'order_number',
         'user_id',
         'status',
+        'payment_status',
         'customer_name',
         'customer_email',
         'customer_phone',
+        'billing_address',
+        'billing_phone',
         'shipping_address',
         'shipping_city',
         'shipping_district',
         'shipping_ward',
         'shipping_postal_code',
         'subtotal',
-        'shipping_fee',
+        'shipping_amount',
         'tax_amount',
         'discount_amount',
-        'total_amount',
+        'total',
         'payment_method',
-        'payment_status',
+        'shipping_method',
         'paid_at',
         'notes',
         'admin_notes'
@@ -35,10 +38,10 @@ class Order extends Model
 
     protected $casts = [
         'subtotal' => 'decimal:2',
-        'shipping_fee' => 'decimal:2',
+        'shipping_amount' => 'decimal:2',
         'tax_amount' => 'decimal:2',
         'discount_amount' => 'decimal:2',
-        'total_amount' => 'decimal:2',
+        'total' => 'decimal:2',
         'paid_at' => 'datetime',
     ];
 
@@ -48,6 +51,14 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'ID');
+    }
+
+    /**
+     * Alias cho user relationship (để dễ hiểu hơn)
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->user();
     }
 
     /**
@@ -69,7 +80,7 @@ class Order extends Model
     /**
      * Lấy text trạng thái đơn hàng
      */
-    public function getStatusTextAttribute(): string
+    public function getStatusLabel(): string
     {
         return match($this->status) {
             'pending' => 'Chờ xử lý',
@@ -77,6 +88,7 @@ class Order extends Model
             'shipped' => 'Đã giao vận',
             'delivered' => 'Đã giao hàng',
             'cancelled' => 'Đã hủy',
+            'refunded' => 'Đã hoàn tiền',
             default => 'Không xác định'
         };
     }
@@ -84,7 +96,7 @@ class Order extends Model
     /**
      * Lấy text trạng thái thanh toán
      */
-    public function getPaymentStatusTextAttribute(): string
+    public function getPaymentStatusLabel(): string
     {
         return match($this->payment_status) {
             'pending' => 'Chờ thanh toán',

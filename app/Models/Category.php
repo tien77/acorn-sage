@@ -35,6 +35,22 @@ class Category extends Model
     }
 
     /**
+     * Get status attribute for compatibility
+     */
+    public function getStatusAttribute(): string
+    {
+        return $this->is_active ? 'active' : 'inactive';
+    }
+
+    /**
+     * Set status attribute for compatibility
+     */
+    public function setStatusAttribute($value): void
+    {
+        $this->attributes['is_active'] = $value === 'active';
+    }
+
+    /**
      * Scope để lấy category gốc (không có parent)
      */
     public function scopeRoot(Builder $query): Builder
